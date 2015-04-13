@@ -3,17 +3,20 @@ using System.Collections;
 
 public class Controls : MonoBehaviour 
 {
+	public bool isMirror;
 	public float currentSpeed;
 	public float maxSpeed;
 	private float distToGround;
+	public AudioClip[] collisonSounds;
+
 
 	// Use this for initialization
 	void Start () 
 	{
-		//Physics.gravity.Set(0.0f,-1000f,0.0f);
 		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 		distToGround = GetComponent<Collider>().bounds.extents.y;
 		maxSpeed = 75f;
+		//collisonSounds = new AudioClip[]{};
 	}
 
 	// Update is called once per frame
@@ -21,13 +24,14 @@ public class Controls : MonoBehaviour
 	{
 		currentSpeed = GetComponent<Rigidbody>().velocity.magnitude;
 
-		if (!IsGrounded ())
-						Debug.Log ("in air");
+//		if (!IsGrounded ())
+//						Debug.Log ("in air");
 
         #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
         /* 
          * Check for player keyboard input and move ball accordingly
          */
+<<<<<<< HEAD
 		if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed && IsGrounded())
 		{
         	if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
@@ -46,6 +50,52 @@ public class Controls : MonoBehaviour
 			{
 				GetComponent<Rigidbody>().AddForce(Vector3.right * 10.0f);
 			}
+=======
+		switch (isMirror)
+		{
+			case false:
+				if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed && IsGrounded())
+				{
+					if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.forward * 10.0f);
+					}
+					if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.back * 10.0f);
+					}
+					if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.left * 10.0f);
+					}
+					if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.right * 10.0f);
+					}
+				}
+				break;
+			case true:
+				if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed && IsGrounded())
+				{
+					if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.forward * -10.0f);
+					}
+					if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.back * -10.0f);
+					}
+					if (Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.LeftArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.left * -10.0f);
+					}
+					if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+					{
+						GetComponent<Rigidbody>().AddForce(Vector3.right * -10.0f);
+					}
+				}
+				break;
+>>>>>>> a076e646d6e0e641506f470c99812018d4eda82f
 		}
         #endif
 
@@ -55,12 +105,20 @@ public class Controls : MonoBehaviour
          */
         Vector3 movement = new Vector3(Input.acceleration.x, 0f, Input.acceleration.y); //-y
 
-//        if (movement.sqrMagnitude > 1)
-//            movement.Normalize();
-        
-		if (rigidbody.velocity.magnitude < maxSpeed && IsGrounded())
+		switch (isMirror)
 		{
-        	rigidbody.AddForce(movement * 50f);
+			case false:
+				if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed && IsGrounded())
+				{
+		        	GetComponent<Rigidbody>().AddForce(movement * 50f);
+				}
+				break;
+			case true:
+				if (GetComponent<Rigidbody>().velocity.magnitude < maxSpeed && IsGrounded())
+				{
+					GetComponent<Rigidbody>().AddForce(movement * -50f);
+				}
+				break;
 		}
         #endif
 	}
@@ -82,17 +140,14 @@ public class Controls : MonoBehaviour
 
 	void OnCollisionEnter(Collision other)
 	{
-		// todo: there is a problem with the relative position where it is taking the 
-		//local y coordinate of the sphere to do the above/bellow calculation meaning 
-		//sometimes it triggers above and sometimes not depending on which way up the sphere is.
-
-		Vector3 contactPoint = other.contacts[0].point;
-		var relativePosition = transform.InverseTransformPoint(contactPoint);
-		//Debug.Log ("CP= " + contactPoint + " RP= " + relativePosition);
+		Ray colRay = new Ray();
+		colRay.origin = transform.position;
+		colRay.direction = other.contacts[0].point - this.transform.position;
 
 		// dont want to colide with objects we are rollling on
-		if (!(relativePosition.y > 0))
+		if (colRay.direction.y>-.1)
 		{
+<<<<<<< HEAD
 			//Debug.Log("The object is not above.");
 
 			// these shouldnt trigger collisions either
@@ -108,6 +163,13 @@ public class Controls : MonoBehaviour
 				Handheld.Vibrate ();
 				#endif
 			}
+=======
+			this.GetComponent<AudioSource>().clip = collisonSounds[Random.Range(0,3)];
+			this.GetComponent<AudioSource>().Play();
+			#if UNITY_ANDROID
+			Handheld.Vibrate ();
+			#endif
+>>>>>>> a076e646d6e0e641506f470c99812018d4eda82f
 		}
 	}
 }

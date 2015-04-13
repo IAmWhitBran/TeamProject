@@ -1,8 +1,17 @@
 ﻿<Properties>
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Ball\Controls.cs">
     <Files>
       <File FileName="Assets\Scripts\Ball\Controls.cs" Line="5" Column="2" />
+=======
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Obstacles\ObstacleBehavior.cs">
+    <Files>
+      <File FileName="Assets\Scripts\Obstacles\ObstacleBehavior.cs" Line="23" Column="57" />
+      <File FileName="Assets\Scripts\Obstacles\TimedButton.cs" Line="43" Column="20" />
+      <File FileName="Assets\Scripts\Ball\Controls.cs" Line="1" Column="1" />
+>>>>>>> a076e646d6e0e641506f470c99812018d4eda82f
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
