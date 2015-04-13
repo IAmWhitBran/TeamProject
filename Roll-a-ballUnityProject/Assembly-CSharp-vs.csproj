@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Main\CubeMatrix.cs" />
      <Compile Include="Assets\Scripts\Obstacles\ColourChange.cs" />
      <Compile Include="Assets\Scripts\Obstacles\GateScript.cs" />
+     <Compile Include="Assets\Scripts\Obstacles\ObstacleBehavior.cs" />
      <Compile Include="Assets\Scripts\Obstacles\PushBlock.cs" />
      <Compile Include="Assets\Scripts\Obstacles\Rotation.cs" />
      <Compile Include="Assets\Scripts\Obstacles\TimedButton.cs" />
